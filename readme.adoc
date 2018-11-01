@@ -23,7 +23,7 @@ ruby                2.5                 1f6aca1e0959        5 days ago          
 * カレントディレクトリをマウントして、コンテナの作成 +
 `docker create -v ${PWD}:/home/ruby --name ruby-dev-container -it ruby-dev-image` +
 
-* できているかどうか確認 +
+* できたか確認 +
 `docker ps -a` +
 
 * どういう状態でイメージが作成されたか確認する +
