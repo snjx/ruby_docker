@@ -1,0 +1,54 @@
+= Rubyの開発をDockerで行う +
+
+適当にフォルダを作成し、そこへ `dockerfile` を持ってくる。 +
+
+
+== Dockerコンテナの準備 +
+
+* build +
+`docker build -t ruby-dev-image .` +
+
+* できたか確認 +
+
+```
+> docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ruby-dev-image     latest              cdff2a791ff0        10 minutes ago      869MB
+ruby                2.5                 1f6aca1e0959        5 days ago          869MB
+```
+
+* imageの削除 +
+`docker rmi ruby-dev-image` +
+
+* カレントディレクトリをマウントして、コンテナの作成 +
+`docker create -v ${PWD}:/home/ruby --name ruby-dev-container -it ruby-dev-image` +
+
+* できているかどうか確認 +
+`docker ps -a` +
+
+* どういう状態でイメージが作成されたか確認する +
+`docker inspect ruby-dev-container` +
+
+* コンテナ起動 +
+`docker start ruby-dev-container` +
+`docker attach ruby-dev-container` +
+attach した状態で「exit」するとコンテナが停止する。 +
+コンテナを終了せずに抜ける「Ctrl + p, Ctrl + q」 +
+
+* exitしてもコンテナを止めないように、コンテナの中に入る +
+  （つまり、これで別プロセスを上げているので、exitしてもコンテナ全体が止まるわけではない） +
+`docker exec -it ruby-dev-container bash` +
+
+* コンテナの停止 +
+`docker stop ruby-dev-container` +
+
+* コンテナをすべて削除 +
+`docker rm $(docker ps -a -q)` +
+
+== 試しに動くかやってみる。
+
+```
+> cd letstry
+> ruby practice.rb
+hello ruby world!
+```
