@@ -9,16 +9,13 @@
 `docker build -t ruby-dev-image .` +
 
 * できたか確認 +
-
+`docker images`
 ```
 > docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 ruby-dev-image     latest              cdff2a791ff0        10 minutes ago      869MB
 ruby                2.5                 1f6aca1e0959        5 days ago          869MB
 ```
-
-* imageの削除 +
-`docker rmi ruby-dev-image` +
 
 * カレントディレクトリをマウントして、コンテナの作成 +
 `docker create -v ${PWD}:/home/ruby --name ruby-dev-container -it ruby-dev-image` +
@@ -31,6 +28,8 @@ ruby                2.5                 1f6aca1e0959        5 days ago          
 
 * コンテナ起動 +
 `docker start ruby-dev-container` +
+
+* 直接コンテナの中に入る +
 `docker attach ruby-dev-container` +
 attach した状態で「exit」するとコンテナが停止する。 +
 コンテナを終了せずに抜ける「Ctrl + p, Ctrl + q」 +
@@ -42,13 +41,22 @@ attach した状態で「exit」するとコンテナが停止する。 +
 * コンテナの停止 +
 `docker stop ruby-dev-container` +
 
-* コンテナをすべて削除 +
-`docker rm $(docker ps -a -q)` +
-
 == 試しに動くかやってみる。
 
+* コンテナの中に入って…
 ```
 > cd letstry
 > ruby practice.rb
 hello ruby world!
 ```
+
+== いらなくなったので削除する。
+
+* コンテナの停止 +
+`docker stop ruby-dev-container` +
+
+* コンテナをすべて削除 +
+`docker rm $(docker ps -a -q)` +
+
+* imageの削除 +
+`docker rmi ruby-dev-image` +
